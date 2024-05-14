@@ -5,4 +5,10 @@ In this project, the overall goal was to create a flask application and containe
 
 ## Docker Explanation
 
-Docker is an open-source platform that enables devs to manage, build, deploy or update containerized applications, as well as pull container images from the Docker Hub. Containers are essentially a way to package your applications
+Docker is an open-source platform that enables devs to manage, build, deploy or update containerized applications, as well as pull container images from the Docker Hub. Containers are essentially a way to package your applications in an isolated environment, which improves efficiency.
+
+## Main Features in this Project
+
+The code is written in Python, as this is a flask-based application. I followed a tutorial from Tech with Tim's video on YouTube. I then created a Docker image of my app and ran a CI/CD job to launch the app in the production app once it had successfully been launched on the local/dev environment.
+
+
