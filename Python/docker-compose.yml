@@ -1,0 +1,85 @@
+version: '3.4'
+
+services:
+  pba42blogdb.c6jtmnlypkzc.eu-west-1.rds.amazonaws.com:
+    image: mysql:latest
+    # command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+    - 3306:3306
+    environment:
+      MYSQL_DATABASE: 'blogdatabase'
+      MYSQL_USER: 'admin'
+      MYSQL_PASSWORD: 'admin123'
+      MYSQL_RANDOM_ROOT_PASSWORD: yes
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    # volumes:
+      # - sqlData:/var/lib/mysql
+      # - "./website/data:/docker-entrypoint-initdb.d/"
+    
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5041:5000"
+    volumes:
+    - ./:/app/
+    environment:
+      # - DB_HOST=pba42blogdb.c6jtmnlypkzc.eu-west-1.rds.amazonaws.com
+      - DB_CONNECTION_STRING=mysql+pymysql://admin:admin123@pba42blogdb.c6jtmnlypkzc.eu-west-1.rds.amazonaws.com:3306/blogdatabase
+    depends_on:
+      pba42blogdb.c6jtmnlypkzc.eu-west-1.rds.amazonaws.com:
+        condition: service_healthy 
+
+volumes:
+  sqlData:
+
+
+
+
+# version: '3.9'
+# services:
+#   # database:
+#   #   image: alpine:3.10
+#   #   restart: always
+#   #   stdin_open: true
+#   #   tty: true
+#   #   volumes:
+#   #     - ./website/database.db:/db/database.db
+
+#   app:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     ports:
+#       - "5010:5000"
+#     volumes:
+#     - ./:/app/
+#     - ./db:/db/database.db    
+
+
+#   db:
+#     image: mysql:5.7
+#     ports:
+#       - "3306:3306"
+#     environment:
+#       MYSQL_ROOT_PASSWORD: root
+#     volumes:
+#       - ./db:/docker-entrypoint-initdb.d/:ro
+
+# # version: '3.9'
+
+
+# # app:
+# #   build:
+# #     context: .
+# #     dockerfile: Dockerfile
+# #   ports:
+# #     - 5010:5000
+# #   volumes:
+# #     - ./:/app/

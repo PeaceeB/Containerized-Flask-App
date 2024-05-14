@@ -1,0 +1,24 @@
+pipeline {
+    agent Worker1
+    environment {
+        BITBUCKET_REPO = ${BITBUCKET_REPO}
+    }
+    
+    triggers{
+        bitbucketPush()
+    }
+
+    stages{
+        stage('repo 1') {
+            steps{
+                checkout changelog: true, poll: true, scm: scmGit(branches: [[name: '*/feature/update-docker-for-deployment']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins_pipeline', url: "${BITBUCKET_REPO}"]])
+                echo 'Done, moving on to step 2'
+            }
+        }
+        stage("trigger pipeline") { 
+            steps{
+                build 'test-docker-compose'
+            }
+        }
+    }
+}
