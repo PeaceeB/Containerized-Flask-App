@@ -9,6 +9,6 @@ Docker is an open-source platform that enables devs to manage, build, deploy or 
 
 ## Main Features in this Project
 
-The code is written in Python, as this is a flask-based application. I followed a tutorial from Tech with Tim's video on YouTube. I then created a Docker image of my app and ran a CI/CD job to launch the app in the production app once it had successfully been launched on the local/dev environment.
+The code is written in Python, as this is a flask-based application. I followed a tutorial from Tech with Tim's video on YouTube. I then created a Docker image of my app and ran a CI/CD job to launch the app in the production environment once it had successfully launched on the local/dev environment.
 
 
